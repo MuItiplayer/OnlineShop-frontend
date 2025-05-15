@@ -9,10 +9,11 @@ import { Product } from '../../models/product.model';
   selector: 'app-product-create',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './product-create.component.html'
+  templateUrl: './product-create.component.html',
+  styleUrls: ['./product-create.component.css']
 })
 export class ProductCreateComponent {
-  product: Product = { id: 0, title: '', description: '' };
+  product: Product = { id: 0, title: '', description: '', price: 0 };
 
   constructor(private productService: ProductService, private router: Router) {}
 

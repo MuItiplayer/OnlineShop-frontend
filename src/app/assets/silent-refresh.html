@@ -1,0 +1,13 @@
+<!-- src/assets/silent-refresh.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Silent Refresh</title>
+</head>
+<body>
+  <script>
+    parent.postMessage(location.href, location.origin);
+  </script>
+</body>
+</html>

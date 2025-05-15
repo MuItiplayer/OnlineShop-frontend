@@ -14,39 +14,29 @@ export class KeycloakService {
       });
 
       this.keycloak.init({
-        onLoad: 'login-required',
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
         flow: 'standard',
         pkceMethod: 'S256'
       }).then(authenticated => {
+        console.log('Keycloak initialized successfully', authenticated);
         resolve(authenticated);
-      }).catch(err => reject(err));
+      }).catch(err => {
+        console.error('Keycloak initialization failed', err);
+        reject(err);
+      });
     });
   }
 
-  getToken(): string | undefined {
-    return this.keycloak.token;
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.keycloak?.authenticated;
-  }
-
-  getUsername(): string {
-    return (this.keycloak.tokenParsed as any)?.preferred_username;
-  }
 
   login(): void {
-    this.keycloak.login({
-      redirectUri: window.location.origin + '/products'
-    });
-  }
-
-
-  logout(): void {
-    this.keycloak.logout({ redirectUri: window.location.origin });
-  }
-
-  hasRole(role: string): boolean {
-    return this.keycloak.hasRealmRole(role);
+    console.log('Login method called');
+    try {
+      this.keycloak.login({
+        redirectUri: window.location.origin + '/products'
+      });
+    } catch (error) {
+      console.error('Fehler beim Login-Versuch:', error);
+    }
   }
 }

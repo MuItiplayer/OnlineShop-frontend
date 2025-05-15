@@ -1,11 +1,5 @@
-<div>
-<div style="text-align: center; margin-top: 100px;">
-  <h2>Login mit Keycloak</h2>
-  <button (click)="login()">Einloggen</button>
-</div>
-
-
-<ng-template #loggedInBlock>
-    <p>Du bist eingeloggt als {{ getUsername() }}</p>
-  </ng-template>
+<div class="login-container">
+  <h2>Anmelden</h2>
+  <p>Bitte melden Sie sich an, um auf den Online-Shop zuzugreifen.</p>
+  <button (click)="login()" class="login-button">Mit Keycloak anmelden</button>
 </div>

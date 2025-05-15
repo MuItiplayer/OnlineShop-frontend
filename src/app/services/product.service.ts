@@ -9,15 +9,15 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   getAll() {
-    return this.http.get<Product[]>('http://localhost:8080/product');
+    return this.http.get<Product[]>('http://localhost:8080/read');
   }
 
   getById(id: number) {
-    return this.http.get<Product>('http://localhost:8080/api/product/' + id);
+    return this.http.get<Product>('http://localhost:8080/product/' + id);
   }
 
   create(product: Product) {
-    return this.http.post<Product>('http://localhost:8080/product/create', product);
+    return this.http.post<Product>('http://localhost:9090/product/create', product);
   }
 
   delete(id: number) {
