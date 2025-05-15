@@ -1,4 +1,3 @@
-// app/components/login/login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,7 +40,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log('Login-Methode aufgerufen');
+    console.log('Login Methode aufgerufen');
     this.authService.login();
   }
 }

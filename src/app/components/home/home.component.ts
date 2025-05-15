@@ -25,43 +25,5 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     console.log('HomeComponent initialisiert');
 
-    this.isLoggedIn = this.authService.isAuthenticated();
-    console.log('Authentifizierungsstatus:', this.isLoggedIn);
-
-    if (!this.isLoggedIn) {
-      console.log('Nicht authentifiziert, Weiterleitung zur Login-Seite');
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    this.authService.usernameObservable.subscribe(name => {
-      this.username = name;
-    });
-
-    try {
-      this.userRoles = await firstValueFrom(this.authService.getRoles());
-      console.log('Benutzerrollen:', this.userRoles);
-
-      this.hasValidRole = this.userRoles.some(role =>
-        ['ADMIN', 'USER'].includes(role)
-      );
-
-      if (!this.hasValidRole) {
-        console.log('Keine gültige Rolle, Zugriff verweigert');
-        this.router.navigate(['/login']);
-      }
-    } catch (error) {
-      console.error('Fehler beim Abrufen der Rollen:', error);
-      this.router.navigate(['/login']);
-    }
-  }
-
-  logout(): void {
-    console.log('Logout ausgelöst');
-    this.authService.logout();
-  }
-
-  hasAdminRole(): boolean {
-    return this.userRoles.includes('ADMIN');
   }
 }

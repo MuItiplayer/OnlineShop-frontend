@@ -17,8 +17,8 @@ export const appCanActivate = async (
 
   if (!isAuthenticated) {
     console.log('Nicht authentifiziert, Weiterleitung zu /login');
-    router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    return false;
+    //router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+    //return false;
   }
 
   const requiredRoles = route.data['roles'] as Array<string>;

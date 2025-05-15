@@ -1,4 +1,4 @@
-<div class="home-container" *ngIf="isLoggedIn && hasValidRole">
+<div class="home-container" >
   <div class="welcome-section">
     <h1>Willkommen im Online-Shop</h1>
     <p class="subtitle">Ihr persönlicher Bereich</p>
@@ -17,15 +17,12 @@
         Produkte anzeigen
       </a>
 
-      <a *ngIf="hasAdminRole()" routerLink="/product/create" class="action-button success">
+      <a  routerLink="/product/create" class="action-button success">
         <span class="icon">➕</span>
         Neues Produkt anlegen
       </a>
 
-      <button (click)="logout()" class="action-button danger">
-        <span class="icon">🚪</span>
-        Abmelden
-      </button>
+
     </div>
   </div>
 
@@ -39,7 +36,7 @@
         <a routerLink="/products" class="card-link">Alle Produkte anzeigen</a>
       </div>
 
-      <div class="dashboard-card" *ngIf="hasAdminRole()">
+      <div class="dashboard-card" >
         <h3>Produktverwaltung</h3>
         <p>Verwalten Sie den Produktkatalog.</p>
         <a routerLink="/product/create" class="card-link">Neues Produkt erstellen</a>

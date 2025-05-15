@@ -68,11 +68,6 @@ export class AppAuthService {
           roles = [...roles, ...this._decodedAccessToken.resource_access['shop-client'].roles.map((r: string) => r.replace('ROLE_', ''))];
         }
 
-        if (this._decodedAccessToken.resource_access &&
-          this._decodedAccessToken.resource_access.demoapp &&
-          this._decodedAccessToken.resource_access.demoapp.roles) {
-          roles = [...roles, ...this._decodedAccessToken.resource_access.demoapp.roles.map((r: string) => r.replace('ROLE_', ''))];
-        }
 
         console.log('Gefundene Rollen:', roles);
         observer.next(roles);
