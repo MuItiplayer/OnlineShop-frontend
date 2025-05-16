@@ -1,7 +1,14 @@
-<h2>Produkte</h2>
-<ul>
-  <li *ngFor="let product of products">
-    <strong>{{ product.title }}</strong><br />
-    {{ product.description }}
-  </li>
-</ul>
+
+<div class="product-list-container">
+  <div class="list-header">
+    <h2>Produkte</h2>
+  </div>
+
+  <div class="product-grid">
+    <div *ngFor="let product of products" class="product-card" [routerLink]="['/products', product.id]">
+      <div class="product-name">{{ product.name }}</div>
+      <div class="product-description">{{ product.description | slice:0:100 }}{{ product.description.length > 100 ? '...' : '' }}</div>
+      <div class="product-price">{{ product.price | currency:'EUR' }}</div>
+    </div>
+  </div>
+</div>

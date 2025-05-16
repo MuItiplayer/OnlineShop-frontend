@@ -1,1 +1,25 @@
-<p>header works!</p>
+<header class="app-header">
+  <div class="header-container">
+    <div class="logo-section">
+      <a routerLink="/" class="logo">Online-Shop</a>
+    </div>
+
+    <nav class="navigation">
+      <a routerLink="/" class="nav-link home-link">
+        Home
+      </a>
+
+      <div class="user-section" *ngIf="isLoggedIn">
+        <span class="username">{{ username }}</span>
+        <button class="logout-button" (click)="logout()">
+          Logout
+        </button>
+      </div>
+
+      <a *ngIf="!isLoggedIn" routerLink="/login" class="nav-link login-link">
+        <span class="icon">🔑</span>
+        Login
+      </a>
+    </nav>
+  </div>
+</header>

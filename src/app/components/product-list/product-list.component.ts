@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product.model';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ProductService } from '../../services/product.service';
-import {NgForOf} from '@angular/common';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-list',
-  imports: [
-    NgForOf
-  ],
-  templateUrl: './product-list.component.html'
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
@@ -16,8 +17,13 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.productService.getAll().subscribe(data => {
-      this.products = data;
+    this.productService.getAll().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: (error) => {
+        console.error('Fehler beim Laden der Produkte:', error);
+      }
     });
   }
 }

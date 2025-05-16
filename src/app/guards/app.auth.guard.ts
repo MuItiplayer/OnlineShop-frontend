@@ -1,55 +1,50 @@
-import { inject } from '@angular/core';
-import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AppAuthService } from '../services/app.auth.service';
-import { lastValueFrom } from 'rxjs';
+import {inject} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivateChildFn, CanActivateFn, Router, RouterStateSnapshot} from '@angular/router';
+import {OAuthService} from 'angular-oauth2-oidc';
+import {AppAuthService} from "../services/app.auth.service";
 
-export const appCanActivate = async (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+export const appCanActivate: CanActivateFn = (
+    route: ActivatedRouteSnapshot,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    state: RouterStateSnapshot
 ) => {
-  const authService = inject(AppAuthService);
+  const authService: AppAuthService = inject(AppAuthService);
+  const oauthService: OAuthService = inject(OAuthService);
   const router = inject(Router);
 
-  console.log('Guard aktiviert für Route:', state.url);
+  let userRoles: string[] = [];
 
-  const isAuthenticated = authService.isAuthenticated();
-  console.log('Ist authentifiziert:', isAuthenticated);
+  authService.getRoles().subscribe(roles => {
+    userRoles = roles;
+  });
 
-  if (!isAuthenticated) {
-    console.log('Nicht authentifiziert, Weiterleitung zu /login');
-    //router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-    //return false;
+  if (oauthService.hasValidAccessToken()) {
+    const hasRoles = checkRoles(route, userRoles);
+    if (!hasRoles) {
+      return router.parseUrl('/');
+    }
+    return hasRoles;
+  }
+  return router.parseUrl('/');
+};
+
+function checkRoles(route: ActivatedRouteSnapshot, userRoles: string[]): boolean {
+  const roles = route.data['roles'] as Array<string>;
+
+  if (roles === undefined || roles === null || roles.length === 0) {
+    return true;
   }
 
-  const requiredRoles = route.data['roles'] as Array<string>;
+  if (userRoles === undefined) {
+    return false;
+  }
 
-  if (requiredRoles && requiredRoles.length > 0) {
-    try {
-      console.log('Erforderliche Rollen für diese Route:', requiredRoles);
-
-      const userRoles = await lastValueFrom(authService.getRoles());
-      console.log('Benutzerrollen aus Token:', userRoles);
-
-      const hasRequiredRole = requiredRoles.some(requiredRole =>
-        userRoles.includes(requiredRole)
-      );
-
-      if (!hasRequiredRole) {
-        console.error('Keine erforderliche Rolle gefunden. Zugriff verweigert.');
-        console.error('Benötigte Rollen:', requiredRoles);
-        console.error('Vorhandene Rollen:', userRoles);
-        router.navigate(['/']);
-        return false;
-      }
-
-      console.log('Rolle gefunden, Zugriff erlaubt');
-    } catch (error) {
-      console.error('Fehler bei der Rollenprüfung:', error);
-      router.navigate(['/']);
-      return false;
+  for (const role of roles) {
+    if (userRoles.indexOf(role) > -1) {
+      return true;
     }
   }
+  return false;
+}
 
-  console.log('Zugriff gewährt für Route:', state.url);
-  return true;
-};
+export const appCanActivateChild: CanActivateChildFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => appCanActivate(route, state);
