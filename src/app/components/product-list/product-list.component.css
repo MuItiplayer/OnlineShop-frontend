@@ -1,74 +1,85 @@
 .product-list-container {
-  padding: 40px 20px;
-  background-color: #f8f9fa;
-  min-height: calc(100vh - 80px);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.list-header {
-  margin-bottom: 30px;
+.product-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-product-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-product-button:hover {
+  background-color: #0069d9;
+}
+
+.loading-message, .no-products-message {
   text-align: center;
-}
-
-h2 {
-  color: #2c3e50;
-  font-size: 1.8rem;
+  padding: 30px;
+  color: #666;
+  font-size: 18px;
 }
 
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .product-card {
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.admin-card {
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
 }
 
-.product-card:hover {
+.admin-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.product-name {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 12px;
+.product-content {
+  padding: 20px;
+}
+
+.product-card h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .product-description {
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.5;
+  color: #666;
   margin-bottom: 15px;
-  flex-grow: 1;
+  height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .product-price {
   font-weight: 700;
-  color: #3498db;
-  font-size: 1.1rem;
-  align-self: flex-end;
-}
-
-@media (max-width: 768px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
+  color: #007bff;
+  font-size: 18px;
+  margin-bottom: 0;
 }

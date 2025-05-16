@@ -1,14 +1,26 @@
-
 <div class="product-list-container">
-  <div class="list-header">
-    <h2>Produkte</h2>
+  <div class="product-list-header">
+    <h1>Produktliste</h1>
+    <button *ngIf="isAdmin" class="add-product-button" routerLink="/product/create">Neues Produkt</button>
   </div>
 
-  <div class="product-grid">
-    <div *ngFor="let product of products" class="product-card" [routerLink]="['/products', product.id]">
-      <div class="product-name">{{ product.name }}</div>
-      <div class="product-description">{{ product.description | slice:0:100 }}{{ product.description.length > 100 ? '...' : '' }}</div>
-      <div class="product-price">{{ product.price | currency:'EUR' }}</div>
+  <div *ngIf="loading" class="loading-message">
+    Produkte werden geladen...
+  </div>
+
+  <div *ngIf="!loading && products.length === 0" class="no-products-message">
+    Keine Produkte gefunden.
+  </div>
+
+  <div *ngIf="!loading && products.length > 0" class="product-grid">
+    <div *ngFor="let product of products" class="product-card"
+         [class.admin-card]="isAdmin"
+         [routerLink]="isAdmin ? ['/products', product.id] : null">
+      <div class="product-content">
+        <h3>{{ product.name }}</h3>
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">{{ product.price | currency:'EUR':'symbol':'1.2-2' }}</p>
+      </div>
     </div>
   </div>
 </div>

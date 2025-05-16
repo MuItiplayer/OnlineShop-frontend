@@ -7,7 +7,7 @@ import { ProductCreateComponent } from './components/product-create/product-crea
 import { ProductDeleteComponent } from './components/product-delete/product-delete.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { appCanActivate } from './guards/app.auth.guard';
-import {AppRoles} from './app.roles';
+import { AppRoles } from './app.roles';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,7 +23,7 @@ export const appRoutes: Routes = [
     path: 'products/:id',
     component: ProductDetailsComponent,
     canActivate: [appCanActivate],
-    data: { roles: [AppRoles.User] }
+    data: { roles: [AppRoles.Admin] }
   },
 
   {
@@ -36,7 +36,7 @@ export const appRoutes: Routes = [
     path: 'product/delete/:id',
     component: ProductDeleteComponent,
     canActivate: [appCanActivate],
-    data: { roles: [AppRoles.User] }
+    data: { roles: [AppRoles.Admin] }
   },
 
   { path: '**', component: NotFoundComponent }
