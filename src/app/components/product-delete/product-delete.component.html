@@ -1,1 +1,26 @@
-<p>product-delete works!</p>
+<div class="delete-button-container">
+  <button
+    class="delete-button"
+    (click)="confirmDelete()"
+    [disabled]="isDeleting || showConfirmation">
+    Produkt löschen
+  </button>
+
+  <div *ngIf="showConfirmation" class="confirmation-dialog">
+    <div class="confirmation-content">
+      <h3>Bestätigung</h3>
+      <p>Sind Sie sicher, dass Sie "{{ productName }}" löschen möchten?</p>
+      <p class="warning-text">Diese Aktion kann nicht rückgängig gemacht werden!</p>
+
+      <div class="confirmation-actions">
+        <button class="cancel-button" (click)="cancelDelete()" [disabled]="isDeleting">
+          Abbrechen
+        </button>
+        <button class="confirm-button" (click)="deleteProduct()" [disabled]="isDeleting">
+          <span *ngIf="!isDeleting">Ja, löschen</span>
+          <span *ngIf="isDeleting">Wird gelöscht...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

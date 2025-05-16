@@ -1,15 +1,15 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
+import { ProductDeleteComponent } from '../product-delete/product-delete.component';
 
 @Component({
   selector: 'app-product-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, ProductDeleteComponent],
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
@@ -101,6 +101,24 @@ export class ProductDetailsComponent implements OnInit {
           (error.error?.message || error.message || 'Unbekannter Fehler');
       }
     });
+  }
+
+  onDeleteStarted(): void {
+    console.log('Löschvorgang gestartet');
+    this.isSubmitting = true;
+    this.errorMessage = '';
+  }
+
+  onDeleteError(error: string): void {
+    console.error('Löschfehler empfangen:', error);
+    this.isSubmitting = false;
+    this.errorMessage = error;
+  }
+
+  onDeleteCompleted(): void {
+    console.log('Löschvorgang abgeschlossen - Navigiere zur Produktliste');
+    this.isSubmitting = false;
+    this.router.navigate(['/products']);
   }
 
   hasError(controlName: string, errorName?: string): boolean {

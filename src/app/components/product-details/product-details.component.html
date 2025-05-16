@@ -65,7 +65,17 @@
       </div>
 
       <div class="form-actions">
-        <button type="button" class="cancel-button" (click)="cancelEdit()">Abbrechen</button>
+        <div class="left-actions">
+          <button type="button" class="cancel-button" (click)="cancelEdit()">Abbrechen</button>
+          <app-product-delete
+            *ngIf="!isSubmitting"
+            [productId]="productId"
+            [productName]="productForm.value.name"
+            (deleteStarted)="onDeleteStarted()"
+            (deleteCompleted)="onDeleteCompleted()"
+            (deleteError)="onDeleteError($event)">
+          </app-product-delete>
+        </div>
         <button
           type="submit"
           class="submit-button"

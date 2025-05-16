@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Product } from '../models/product.model';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -26,6 +27,20 @@ export class ProductService {
   }
 
   delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/product/delete/${id}`);
+    const url = `${this.baseUrl}/product/delete/${id}`;
+    console.log(`Sende DELETE-Anfrage an: ${url}`);
+
+    return this.http.delete<void>(url).pipe(
+      tap(() => console.log(`Produkt mit ID ${id} erfolgreich gelöscht`))
+    );
+  }
+
+  testDeleteWithPost(id: number): Observable<void> {
+    const url = `${this.baseUrl}/product/delete/${id}`;
+    console.log(`Sende POST-Anfrage für Löschung an: ${url}`);
+
+    return this.http.post<void>(url, {}).pipe(
+      tap(() => console.log(`Produkt mit ID ${id} erfolgreich gelöscht via POST`))
+    );
   }
 }
