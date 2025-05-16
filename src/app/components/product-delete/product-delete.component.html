@@ -1,7 +1,7 @@
 <div class="delete-button-container">
   <button
     class="delete-button"
-    (click)="confirmDelete()"
+    (click)="confirmDelete($event)"
     [disabled]="isDeleting || showConfirmation">
     Produkt löschen
   </button>

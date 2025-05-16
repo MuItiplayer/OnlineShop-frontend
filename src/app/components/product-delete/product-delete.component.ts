@@ -29,7 +29,8 @@ export class ProductDeleteComponent implements OnInit {
     console.log('ProductDeleteComponent initialisiert mit ID:', this.productId);
   }
 
-  confirmDelete(): void {
+  confirmDelete(e : Event): void {
+    e.preventDefault();
     console.log('Löschbestätigung geöffnet für Produkt ID:', this.productId);
     this.showConfirmation = true;
   }
