@@ -1,0 +1,32 @@
+FROM node:18-alpine AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm ci --only=production
+
+COPY . .
+
+RUN npm run build
+
+FROM nginx:alpine
+
+COPY --from=build /app/build /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf 2>/dev/null || echo "No custom nginx.conf found, using default"
+
+RUN addgroup -g 1001 -S nginx && \
+    adduser -S nginx -u 1001
+
+RUN chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/conf.d
+RUN touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid
+
+USER nginx
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
